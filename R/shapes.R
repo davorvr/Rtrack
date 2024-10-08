@@ -88,6 +88,13 @@ standardised_radius_square = function(raw.corners){
 	return(signif(radius, 4))
 }
 
+square_transform = function(x, y, model){
+	# Convert a point from raw to standardised space based on an affine model
+	new.x = (x * stats::coef(model)['raw.corners[, "x"]', "x"]) + (y * stats::coef(model)['raw.corners[, "y"]', "x"]) + stats::coef(model)["(Intercept)", "x"]
+	new.y = (x * stats::coef(model)['raw.corners[, "x"]', "y"]) + (y * stats::coef(model)['raw.corners[, "y"]', "y"]) + stats::coef(model)["(Intercept)", "y"]
+	return(list(x = signif(new.x, 4), y = signif(new.y, 4)))
+}
+
 rotate = function(x, angle){
 	x * matrix(c(cos(angle), sin(angle), -sin(angle), cos(angle)), 2, 2)
 }
